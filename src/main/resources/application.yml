@@ -1,0 +1,33 @@
+spring:
+  profiles:
+    active: dev
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/books?serverTimezone=GMT
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.jdbc.Driver
+server:
+  port: 8081
+
+org:
+  name: SCUT-SE
+
+jwt:
+  rsa-bit: 2048
+  key-id: jwtKey
+---
+spring:
+     profiles: dev
+
+my:
+  name: pentix
+---
+spring:
+     profiles:test
+my:
+  name: kirhhoff
+---
+spring:
+     profiles:release
+my:
+  name: northy
