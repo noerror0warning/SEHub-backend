@@ -9,12 +9,10 @@ spring:
 server:
   port: 8081
 
-org:
-  name: SCUT-SE
-
 jwt:
-  rsa-bit: 2048
-  key-id: jwtKey
+  rsaKeySize: 2048
+  expired: 5
+  issuer: SCUT-SE
 ---
 spring:
      profiles: dev
