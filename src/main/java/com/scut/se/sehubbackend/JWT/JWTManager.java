@@ -1,6 +1,6 @@
 package com.scut.se.sehubbackend.JWT;
 
-import com.scut.se.sehubbackend.Configuration.JWTConfiguration;
+import com.scut.se.sehubbackend.Config.JWTConfig;
 import com.scut.se.sehubbackend.Domain.User;
 import org.jose4j.jwk.RsaJsonWebKey;
 import org.jose4j.jws.AlgorithmIdentifiers;
@@ -26,13 +26,13 @@ public class JWTManager {
     JwtConsumer jwtConsumer;//反向构造器
 
     @Autowired
-    JWTConfiguration jwtConfiguration;//配置类
+    JWTConfig jwtConfig;//配置类
 
     public String encode(User user) throws JoseException {
         JwtClaims jwtClaims=new JwtClaims();//创建一个jwt
-        jwtClaims.setIssuer(jwtConfiguration.getIssuer());//发布组织
+        jwtClaims.setIssuer(jwtConfig.getIssuer());//发布组织
         jwtClaims.setSubject(user.getStudentNO());//以学号为验证信息
-        jwtClaims.setExpirationTimeMinutesInTheFuture(jwtConfiguration.getExpired());//过期时间
+        jwtClaims.setExpirationTimeMinutesInTheFuture(jwtConfig.getExpired());//过期时间
         jwtClaims.setIssuedAtToNow();//发布时间
 
         jsonWebSignature.setPayload(jwtClaims.toJson());//设置Payload
@@ -42,7 +42,9 @@ public class JWTManager {
         return jsonWebSignature.getCompactSerialization();
     }
 
-    public String decode(String jwt) throws InvalidJwtException, MalformedClaimException {
-        return jwtConsumer.processToClaims(jwt).getSubject();
+    public User decode(String jwt) throws InvalidJwtException, MalformedClaimException {
+        User user=new User();
+        user.setStudentNO(jwtConsumer.processToClaims(jwt).getSubject());
+        return user;
     }
 }
