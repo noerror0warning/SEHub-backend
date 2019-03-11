@@ -1,9 +1,9 @@
-package com.scut.se.sehubbackend.Service;
+package com.scut.se.sehubbackend.Repository;
 
 import com.scut.se.sehubbackend.Domain.MeetingRecord;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface MeetingRecordService extends JpaRepository<MeetingRecord,String> {
+public interface MeetingRecordRepository extends JpaRepository<MeetingRecord,String> {
 }

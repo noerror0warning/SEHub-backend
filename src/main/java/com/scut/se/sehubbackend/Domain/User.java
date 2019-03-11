@@ -15,14 +15,14 @@ public class User implements Serializable {
     private static final long serialVersionUID=1L;
 
     @Id
-    String studentNO;
+    String studentNO;//学号
 
-    String name;
+    String name;//姓名
 
-    Department department;
+    Department department;//部门
 
-    Position position;
+    Position position;//职位
 
-    String password;
+    String password;//密码
 
 }
