@@ -16,6 +16,9 @@ jwt:
 request:
   uri:
     login: /login
+    application:
+      prefix: /application
+      propaganda: /propaganda
   header:
     authority: jwt
 

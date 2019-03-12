@@ -13,7 +13,7 @@ public class PropagandaApy {
     @Id
     Long actId;//活动id
 
-    String postStuID;//申请人学号
+    String postStudentNO;//申请人学号
 
     String postTime;//申请发起时间
 
