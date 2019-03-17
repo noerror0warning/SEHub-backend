@@ -9,7 +9,14 @@ public class WebConfig {
 
     @Value("${request.uri.login}")
     @Getter
-    String loginURI;
+    String loginPage;
+
+    @Getter
+    String usernameParameter;
+
+    @Getter
+    String passwordParameter;
+
 
     @Value("${request.header.authority}")
     @Getter

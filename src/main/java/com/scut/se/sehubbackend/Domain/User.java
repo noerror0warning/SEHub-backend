@@ -1,16 +1,17 @@
 package com.scut.se.sehubbackend.Domain;
 
 import com.scut.se.sehubbackend.Enumeration.Department;
-import com.scut.se.sehubbackend.Enumeration.Position;
 import lombok.Data;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @Entity
-public class User implements Serializable {
+public class  User implements Serializable {
 
     private static final long serialVersionUID=1L;
 
@@ -21,7 +22,7 @@ public class User implements Serializable {
 
     Department department;//部门
 
-    Position position;//职位
+    List<GrantedAuthority> grantedAuthorities;//职位
 
     String password;//密码
 
