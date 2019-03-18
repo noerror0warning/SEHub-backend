@@ -1,10 +1,10 @@
 package com.scut.se.sehubbackend.Repository;
 
-import com.scut.se.sehubbackend.Domain.PropagandaApy;
+import com.scut.se.sehubbackend.Domain.Notice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PropagandaApyRepository extends JpaRepository<PropagandaApy,Long> {
+public interface NoticeRepository extends JpaRepository<Notice,Long> {
 
 }

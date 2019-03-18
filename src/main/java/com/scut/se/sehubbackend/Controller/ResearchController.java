@@ -6,4 +6,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/Research")
 public class ResearchController {
+
+    @RequestMapping("/test")
+    String hello(){
+        return "Hello!";
+    }
 }

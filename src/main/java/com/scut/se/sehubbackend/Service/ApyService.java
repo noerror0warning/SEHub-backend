@@ -7,11 +7,17 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ApyService {
+
     @Autowired
     PropagandaApyRepository propagandaApyRepository;
 
     public int createPropagandaApy(PropagandaApy propagandaApy){
+
+//        propagandaApyRepository.
+
         return 0;
     }
+
+
 
 }

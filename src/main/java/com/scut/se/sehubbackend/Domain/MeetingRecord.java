@@ -4,6 +4,7 @@ import com.scut.se.sehubbackend.Enumeration.ApprovalStatus;
 import com.scut.se.sehubbackend.Enumeration.Department;
 import lombok.Data;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.io.Serializable;
@@ -23,7 +24,7 @@ public class MeetingRecord implements Serializable {
     Department department;
 
     User absent[];
-
+    
     String content;
 
     String assignment;
