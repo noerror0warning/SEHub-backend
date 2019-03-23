@@ -13,11 +13,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.Map;
 import java.util.Optional;
 
 @Service
+@CrossOrigin
 public class AuthorizeService {
 
     @Autowired UserRepository userRepository;
@@ -27,6 +29,7 @@ public class AuthorizeService {
 
     public String login(User user) throws JoseException {
         return jwtManager.encode(user);
+//        CorsConfiguration
     }
 
     //授予权限

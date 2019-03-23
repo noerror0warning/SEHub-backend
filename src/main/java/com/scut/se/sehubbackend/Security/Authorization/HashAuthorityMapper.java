@@ -7,38 +7,39 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
-import java.util.Dictionary;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 一个简单的权限映射策略
  * 用于规范输入字符串
  */
 @Service
-public class DictionaryAuthorityMapper implements AuthorityMapper {
+public class HashAuthorityMapper implements AuthorityMapper {
 
-    Dictionary<String,GrantedAuthority> authorityDictionary;
+    Map<String,GrantedAuthority> authorityMapper =new HashMap<>();
     private static final String STANDING_COMMITTEE_PREFIX=Position.StandingCommittee+"_";
     private static final String MINISTER_PREFIX = Position.Minister.toString()+"_";
     private static final String STUFF_PREFIX=Position.Staff.toString()+"_";
     private static final String MUTABLE_PREFIX="Dynamic_";
 
 
-    public DictionaryAuthorityMapper(){
+    public HashAuthorityMapper(){
         //将预定义的权限放入字典中
-        authorityDictionary.put(STANDING_COMMITTEE_PREFIX,new SimpleGrantedAuthority(STANDING_COMMITTEE_PREFIX));//常委权限
+        authorityMapper.put(Position.StandingCommittee.toString(),new SimpleGrantedAuthority(STANDING_COMMITTEE_PREFIX));//常委权限
         for (Department department: Department.values()){
             //部长权限
-            authorityDictionary.put(MINISTER_PREFIX +department.toString(),new SimpleGrantedAuthority(MINISTER_PREFIX +department.toString()));
+            authorityMapper.put(MINISTER_PREFIX +department.toString(),new SimpleGrantedAuthority(MINISTER_PREFIX +department.toString()));
             //部员权限
-            authorityDictionary.put(STUFF_PREFIX +department.toString(),new SimpleGrantedAuthority(STUFF_PREFIX +department.toString()));
+            authorityMapper.put(STUFF_PREFIX +department.toString(),new SimpleGrantedAuthority(STUFF_PREFIX +department.toString()));
             //部门动态权限
-            authorityDictionary.put(MUTABLE_PREFIX+department.toString(),new SimpleGrantedAuthority(MUTABLE_PREFIX+department.toString()));
+            authorityMapper.put(MUTABLE_PREFIX+department.toString(),new SimpleGrantedAuthority(MUTABLE_PREFIX+department.toString()));
         }
     }
 
     @Override
     public GrantedAuthority map(String authority) {
-        return authorityDictionary.get(authority);
+        return authorityMapper.get(authority);
     }
 
 }
