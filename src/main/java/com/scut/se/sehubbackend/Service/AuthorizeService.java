@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -42,11 +43,12 @@ public class AuthorizeService {
     private ResponseEntity<Map<String,Object>> dynamicAuthorityOperation(User userToAuthorize, String dynamicAuthority, AuthorityOperation operation){
         GrantedAuthority authority=new SimpleGrantedAuthority("");//根据请求生成权限
         Optional<User> user=userRepository.findById(userToAuthorize.getStudentNO());//查找被授权人
-        if(!user.isPresent()||authority==null)//未找到被授权人或没有对应的权限
+        User operator=(User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();//获取授权操作者
+        if(operator==null||!user.isPresent()||authority==null)//未找到被授权人或没有对应的权限
             return new ResponseEntity<Map<String, Object>>(HttpStatus.BAD_REQUEST);
 
         //找到被授权人时
-        if (decisionManager.decide(user.get(),authority)){//是否允许权限变更
+        if (decisionManager.decide(operator,user.get(),authority)){//是否允许权限变更
             Boolean result;
             switch (operation){
                 case AUTHORIZATION:result=authorityManager.addAuthority(user.get(),authority);
