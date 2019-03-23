@@ -5,7 +5,6 @@ import com.scut.se.sehubbackend.Enumeration.AuthorityOperation;
 import com.scut.se.sehubbackend.JWT.JWTManager;
 import com.scut.se.sehubbackend.Repository.UserRepository;
 import com.scut.se.sehubbackend.Security.Authorization.interfaces.AuthorityManager;
-import com.scut.se.sehubbackend.Security.Authorization.interfaces.AuthorityMapper;
 import com.scut.se.sehubbackend.Security.Authorization.interfaces.AuthorizationDecisionManager;
 import org.jose4j.lang.JoseException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +24,6 @@ public class AuthorizeService {
     @Autowired JWTManager jwtManager;
     @Autowired AuthorizationDecisionManager decisionManager;
     @Autowired AuthorityManager authorityManager;
-    @Autowired AuthorityMapper mapper;
-
 
     public String login(User user) throws JoseException {
         return jwtManager.encode(user);
@@ -44,7 +41,7 @@ public class AuthorizeService {
 
     //执行具体的权限操作
     private ResponseEntity<Map<String,Object>> dynamicAuthorityOperation(User userToAuthorize, String dynamicAuthority, AuthorityOperation operation){
-        GrantedAuthority authority=mapper.map(dynamicAuthority);//根据请求生成权限
+        GrantedAuthority authority=authorityManager.generateAuthority(dynamicAuthority);//根据请求生成权限
         Optional<User> user=userRepository.findById(userToAuthorize.getStudentNO());//查找被授权人
         User operator=(User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();//获取授权操作者
         if(operator==null||!user.isPresent()||authority==null)//未找到被授权人或没有对应的权限
