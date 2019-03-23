@@ -1,7 +1,7 @@
 package com.scut.se.sehubbackend.Config;
 
 import com.scut.se.sehubbackend.Domain.User;
-import com.scut.se.sehubbackend.Filter.InMemoryUserCahe;
+import com.scut.se.sehubbackend.Security.Authentication.InMemoryUserCahe;
 import com.scut.se.sehubbackend.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

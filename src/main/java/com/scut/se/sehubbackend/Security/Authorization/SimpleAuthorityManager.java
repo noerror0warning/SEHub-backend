@@ -1,7 +1,9 @@
-package com.scut.se.sehubbackend.Service;
+package com.scut.se.sehubbackend.Security.Authorization;
 
 import com.scut.se.sehubbackend.Domain.User;
 import com.scut.se.sehubbackend.Repository.UserRepository;
+import com.scut.se.sehubbackend.Security.Authorization.interfaces.AuthorityManager;
+import com.scut.se.sehubbackend.Security.Authorization.interfaces.AuthorityMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,6 +12,12 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+
+/**
+ * 一个简单的权限管理者的实现
+ * 根据学号查询数据库中的用户，对权限变更后更新数据库
+ * 注意，该类仅负责行为，是否有权执行这些行为应由调用者决定
+ */
 @Service
 public class SimpleAuthorityManager implements AuthorityManager {
 

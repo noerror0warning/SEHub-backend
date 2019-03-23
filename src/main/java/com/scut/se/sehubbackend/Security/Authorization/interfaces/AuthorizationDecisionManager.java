@@ -1,5 +1,6 @@
-package com.scut.se.sehubbackend.Service;
+package com.scut.se.sehubbackend.Security.Authorization.interfaces;
 
+import com.scut.se.sehubbackend.Security.Authorization.PositionAndDepartmentBasedAuthorizationDecisionManger;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

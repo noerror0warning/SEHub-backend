@@ -4,6 +4,8 @@ import com.scut.se.sehubbackend.Domain.User;
 import com.scut.se.sehubbackend.Enumeration.AuthorityOperation;
 import com.scut.se.sehubbackend.JWT.JWTManager;
 import com.scut.se.sehubbackend.Repository.UserRepository;
+import com.scut.se.sehubbackend.Security.Authorization.interfaces.AuthorityManager;
+import com.scut.se.sehubbackend.Security.Authorization.interfaces.AuthorizationDecisionManager;
 import org.jose4j.lang.JoseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,7 +14,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
 import java.util.Map;
 import java.util.Optional;
 
@@ -21,8 +22,10 @@ public class AuthorizeService {
 
     @Autowired UserRepository userRepository;
     @Autowired JWTManager jwtManager;
-    @Autowired AuthorizationDecisionManager decisionManager;
-    @Autowired AuthorityManager authorityManager;
+    @Autowired
+    AuthorizationDecisionManager decisionManager;
+    @Autowired
+    AuthorityManager authorityManager;
 
 
     public String login(User user) throws JoseException {

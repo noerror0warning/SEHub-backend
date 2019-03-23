@@ -1,4 +1,4 @@
-package com.scut.se.sehubbackend.Filter;
+package com.scut.se.sehubbackend.Security.Authentication;
 
 import com.scut.se.sehubbackend.Config.WebConfig;
 import org.springframework.beans.factory.annotation.Autowired;

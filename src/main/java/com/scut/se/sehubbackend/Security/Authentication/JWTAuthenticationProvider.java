@@ -1,4 +1,4 @@
-package com.scut.se.sehubbackend.Filter;
+package com.scut.se.sehubbackend.Security.Authentication;
 
 import com.scut.se.sehubbackend.JWT.JWTManager;
 import org.jose4j.jwt.MalformedClaimException;

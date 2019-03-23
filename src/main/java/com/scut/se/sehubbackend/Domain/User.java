@@ -1,6 +1,7 @@
 package com.scut.se.sehubbackend.Domain;
 
 import com.scut.se.sehubbackend.Enumeration.Department;
+import com.scut.se.sehubbackend.Enumeration.Position;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,6 +24,8 @@ public class  User implements UserDetails,Serializable {
     String name;//姓名
 
     Department department;//部门
+
+    Position position;//职位
 
     List<GrantedAuthority> grantedAuthorities;//权限
 
