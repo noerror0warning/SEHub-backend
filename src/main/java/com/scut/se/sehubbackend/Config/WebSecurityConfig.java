@@ -1,6 +1,6 @@
-package com.scut.se.sehubbackend.Filter;
+package com.scut.se.sehubbackend.Config;
 
-import com.scut.se.sehubbackend.Config.WebConfig;
+import com.scut.se.sehubbackend.Security.Authentication.JWTPreAuthenticatedProcessingFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
