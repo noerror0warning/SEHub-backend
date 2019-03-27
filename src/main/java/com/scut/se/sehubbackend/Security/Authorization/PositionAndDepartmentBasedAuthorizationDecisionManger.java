@@ -10,18 +10,27 @@ import org.springframework.stereotype.Service;
 
 
 /**
- * 一个基于部门和职位进行决策的实现，可参考{@link AuthorizationDecisionManager}
- * 决策的依据是：
- * 1.{@code operator}与{@code user}应位于相同部门，常委不受限
- * 2.{@code operator}的职位应高于{@code user}
- * 3 部员无权进行权限变更操作
+ * 一个基于部门和职位进行决策的实现，可参考{@link AuthorizationDecisionManager}<br/>
+ * 决策的依据是:<br/>
+ * 1.{@code operator}与{@code user}应位于相同部门，常委不受限<br/>
+ * 2.{@code operator}的职位应高于{@code user}<br/>
+ * 3 部员无权进行权限变更操作<br/>
+ * @see AuthorizationDecisionManager
  */
 @Service
 public class PositionAndDepartmentBasedAuthorizationDecisionManger implements AuthorizationDecisionManager {
 
+    /**
+     * 具体描述见{@link AuthorizationDecisionManager#decide(UserDetails, UserDetails, GrantedAuthority)}<br/>
+     * 此处采取的依据见{@link PositionAndDepartmentBasedAuthorizationDecisionManger}
+     * @param operator 变更行为的发起者
+     * @param user 变更行为的承受者
+     * @param dynamicAuthority 要变更的权限
+     * @return 决策结果
+     */
     @Override
     public Boolean decide(UserDetails operator, UserDetails user, GrantedAuthority dynamicAuthority) {
-        if(!(operator instanceof User)||!(user instanceof User)){//检测类型，以防万一
+        if(!(operator instanceof User)||!(user instanceof User)||dynamicAuthority==null){//检测类型，以防万一
             return false;
         }
 
@@ -41,8 +50,13 @@ public class PositionAndDepartmentBasedAuthorizationDecisionManger implements Au
         return false;
     }
 
-    //检测目标权限是否可变
+    /**
+     * 检测目标权限是否可变<br/>
+     * 此处直接检测权限是否以{@code Dynamic}开头
+     * @param dynamicAuthority 目标权限是否可变
+     * @return 结果
+     */
     Boolean isNotImmutable(GrantedAuthority dynamicAuthority){
-        return dynamicAuthority.getAuthority().contains("Dynamic");
+        return dynamicAuthority.getAuthority().startsWith("Dynamic");
     }
 }

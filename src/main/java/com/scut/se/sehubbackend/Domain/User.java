@@ -2,7 +2,9 @@ package com.scut.se.sehubbackend.Domain;
 
 import com.scut.se.sehubbackend.Enumeration.Department;
 import com.scut.se.sehubbackend.Enumeration.Position;
+import lombok.Builder;
 import lombok.Data;
+import lombok.Singular;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -14,6 +16,7 @@ import java.util.List;
 
 @Data
 @Entity
+@Builder
 public class  User implements UserDetails,Serializable {
 
     private static final long serialVersionUID=1L;
@@ -27,6 +30,7 @@ public class  User implements UserDetails,Serializable {
 
     Position position;//职位
 
+    @Singular
     List<GrantedAuthority> grantedAuthorities;//权限
 
     String password;//密码

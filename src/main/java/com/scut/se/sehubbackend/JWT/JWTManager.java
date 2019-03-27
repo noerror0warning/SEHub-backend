@@ -2,6 +2,7 @@ package com.scut.se.sehubbackend.JWT;
 
 import com.scut.se.sehubbackend.Config.JWTConfig;
 import com.scut.se.sehubbackend.Domain.User;
+import com.scut.se.sehubbackend.Repository.UserRepository;
 import org.jose4j.jwk.RsaJsonWebKey;
 import org.jose4j.jws.AlgorithmIdentifiers;
 import org.jose4j.jws.JsonWebSignature;
@@ -13,21 +14,26 @@ import org.jose4j.lang.JoseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
+/**
+ * 提供将一个用户编码为{@code jwt}的{@link #encode(User)}、将一个{@code jwt}解码为用户的{@link #decode(String)}功能<br/>
+ */
 @Service
 public class JWTManager {
 
-    @Autowired
-    RsaJsonWebKey rsaJsonWebKey;//密钥对
+    @Autowired RsaJsonWebKey rsaJsonWebKey;//密钥对
+    @Autowired JsonWebSignature jsonWebSignature;//签名
+    @Autowired JwtConsumer jwtConsumer;//反向构造器
+    @Autowired JWTConfig jwtConfig;//配置类
+    @Autowired UserRepository userRepository;//用户dao
 
-    @Autowired
-    JsonWebSignature jsonWebSignature;//签名
-
-    @Autowired
-    JwtConsumer jwtConsumer;//反向构造器
-
-    @Autowired
-    JWTConfig jwtConfig;//配置类
-
+    /**
+     * 将一个用户编码为{@code jwt}<br/>
+     * 目前的实现只是将学号放入了{@code jwt}
+     * @param user 需要编码的用户
+     * @return 编码后的jwt
+     */
     public String encode(User user) throws JoseException {
         JwtClaims jwtClaims=new JwtClaims();//创建一个jwt
         jwtClaims.setIssuer(jwtConfig.getIssuer());//发布组织
@@ -42,9 +48,20 @@ public class JWTManager {
         return jsonWebSignature.getCompactSerialization();
     }
 
-    public User decode(String jwt) throws InvalidJwtException, MalformedClaimException {
-        User user=new User();
-        user.setStudentNO(jwtConsumer.processToClaims(jwt).getSubject());
-        return user;
+    /**
+     * 对一个{@code jwt}解码得到用户<br/>
+     * 此处是根据{@code jwt}内的学号对数据库查询得到用户
+     * @param jwt 提供的jwt
+     * @return 解码后得到的用户，无效的{@code jwt}返回null
+     */
+    public User decode(String jwt) throws MalformedClaimException {
+        try {
+            Optional<User> user=userRepository.findById(jwtConsumer.processToClaims(jwt).getSubject());
+            if(user.isPresent())
+                return user.get();
+            return null;
+        } catch (InvalidJwtException e) {
+            return null;
+        }
     }
 }

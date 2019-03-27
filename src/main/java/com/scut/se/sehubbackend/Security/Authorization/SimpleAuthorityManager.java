@@ -14,9 +14,10 @@ import java.util.Optional;
 
 
 /**
- * 一个简单的权限管理者的实现
- * 根据学号查询数据库中的用户，对权限变更后更新数据库
- * 注意，该类仅负责行为，是否有权执行这些行为应由调用者决定
+ * 一个简单的权限管理者的实现<br/>
+ * 根据学号查询数据库中的用户，对权限变更后更新数据库<br/>
+ * 字符串构造权限的服务委派给{@code mapper}提供
+ * @see AuthorityManager
  */
 @Service
 public class SimpleAuthorityManager implements AuthorityManager {
@@ -54,6 +55,11 @@ public class SimpleAuthorityManager implements AuthorityManager {
         }else return false;//用户不存在
     }
 
+    /**
+     * 委派给{@code mapper}提供
+     * @param authority 输入的字符串
+     * @return 构造出的权限
+     */
     @Override
     public GrantedAuthority generateAuthority(String authority) {
         return mapper.map(authority);

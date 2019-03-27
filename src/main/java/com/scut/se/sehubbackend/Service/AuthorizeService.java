@@ -18,6 +18,16 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * 提供登陆、权限变动相关的服务<br/>
+ * <span>
+ *     <li>登陆服务负责返回认证后的{@code jwt}</li>
+ *     <li>
+ *         权限变动流程分为三步:<br/>
+ *         变更权限请求到来->{@link AuthorizeService#decisionManager}决策是否有权变更->{@link AuthorizeService#authorityManager}执行
+ *     </li>
+ * </span>
+ */
 @Service
 @CrossOrigin
 public class AuthorizeService {
@@ -27,22 +37,42 @@ public class AuthorizeService {
     @Autowired AuthorizationDecisionManager decisionManager;
     @Autowired AuthorityManager authorityManager;
 
+    /**
+     * 提供登陆后的凭证
+     * @param user 具体的登陆用户
+     * @return 编码后得到的jwt
+     */
     public String login(User user) throws JoseException {
         return jwtManager.encode(user);
-//        CorsConfiguration
     }
 
-    //授予权限
+    /**
+     * 授权操作，实际由由{@link #dynamicAuthorityOperation(User, String, AuthorityOperation)}代理
+     * @param userToAuthorize 被变更者
+     * @param dynamicAuthority 目标权限
+     * @return
+     */
     public ResponseEntity<Map<String,Object>> authorize(User userToAuthorize, String dynamicAuthority){
         return dynamicAuthorityOperation(userToAuthorize,dynamicAuthority,AuthorityOperation.AUTHORIZATION);
     }
 
-    //移除权限
+    /**
+     * 解权操作，实际由{@link #dynamicAuthorityOperation(User, String, AuthorityOperation)}代理
+     * @param userToAuthorize 被变更者
+     * @param dynamicAuthority 目标权限
+     * @return
+     */
     public ResponseEntity<Map<String,Object>> deauthorize(User userToAuthorize, String dynamicAuthority){
         return dynamicAuthorityOperation(userToAuthorize,dynamicAuthority,AuthorityOperation.DEAUTHORIZATION);
     }
 
-    //执行具体的权限操作
+    /**
+     * 代理权限的具体操作
+     * @param userToAuthorize 被变更者
+     * @param dynamicAuthority 目标权限
+     * @param operation 具体的操作，见{@link AuthorityOperation}
+     * @return 请求实体
+     */
     private ResponseEntity<Map<String,Object>> dynamicAuthorityOperation(User userToAuthorize, String dynamicAuthority, AuthorityOperation operation){
         GrantedAuthority authority=authorityManager.generateAuthority(dynamicAuthority);//根据请求生成权限
         Optional<User> user=userRepository.findById(userToAuthorize.getStudentNO());//查找被授权人
