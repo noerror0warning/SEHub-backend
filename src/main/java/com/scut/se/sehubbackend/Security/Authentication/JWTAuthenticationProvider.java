@@ -2,7 +2,6 @@ package com.scut.se.sehubbackend.Security.Authentication;
 
 import com.scut.se.sehubbackend.JWT.JWTManager;
 import org.jose4j.jwt.MalformedClaimException;
-import org.jose4j.jwt.consumer.InvalidJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -37,8 +36,6 @@ public class JWTAuthenticationProvider implements AuthenticationProvider {
         try {
             String studentNO=jwtManager.decode(jwt).getStudentNO();//对jwt解码并获得学号
             userDetails=userDetailsService.loadUserByUsername(studentNO);//加载用户信息
-        } catch (InvalidJwtException e) {//无效或伪造的jwt
-            e.printStackTrace();
         } catch (MalformedClaimException e) {
             e.printStackTrace();
         }
