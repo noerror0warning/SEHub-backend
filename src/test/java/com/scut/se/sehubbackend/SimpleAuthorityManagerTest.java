@@ -67,16 +67,16 @@ public class SimpleAuthorityManagerTest {
          * 如果添加已有的权限，权限的总数不会变，且权限还是原来的权限
          */
         authorityManager.addAuthority(user,existSimpleGrantedAuthority);
-        assertEquals(1,grantedAuthorities.size());
-        assertEquals("exist",grantedAuthorities.get(0).getAuthority());
+        assertEquals(1,user.getGrantedAuthorities().size());
+        assertEquals("exist",user.getGrantedAuthorities().get(0).getAuthority());
 
         /**
          * 如果添加未有的权限，权限的总数会加一
          */
         authorityManager.addAuthority(user,notExistSimpleGrantedAuthority);//会报错
-        assertEquals(2,grantedAuthorities.size());
-        assertEquals("exist",grantedAuthorities.get(0).getAuthority());
-        assertEquals("not exist",grantedAuthorities.get(2).getAuthority());
+        assertEquals(2,user.getGrantedAuthorities().size());
+        assertEquals("exist",user.getGrantedAuthorities().get(0).getAuthority());
+        assertEquals("not exist",user.getGrantedAuthorities().get(1).getAuthority());
 
     }
 
@@ -85,21 +85,22 @@ public class SimpleAuthorityManagerTest {
         /**
          * 不存在的用户应该返回false
          */
-        assertEquals(false,authorityManager.addAuthority(notExistuser,existSimpleGrantedAuthority));
-        assertEquals(true,authorityManager.addAuthority(user,existSimpleGrantedAuthority));
+        assertEquals(false,authorityManager.removeAuthority(notExistuser,existSimpleGrantedAuthority));
+        assertEquals(true,authorityManager.removeAuthority(user,existSimpleGrantedAuthority));
 
         /**
          * 如果移除未有的权限，权限的总数不会变，且权限还是原来的权限
          */
+        authorityManager.addAuthority(user,existSimpleGrantedAuthority);
         authorityManager.removeAuthority(user,notExistSimpleGrantedAuthority);
-        assertEquals(1,grantedAuthorities.size());
-        assertEquals("exist",grantedAuthorities.get(0).getAuthority());
+        assertEquals(1,user.getGrantedAuthorities().size());
+        assertEquals("exist",user.getGrantedAuthorities().get(0).getAuthority());
 
         /**
          * 如果移除已有的权限，权限的总数会减1
          */
-        authorityManager.removeAuthority(user,existSimpleGrantedAuthority);//报错
-        assertEquals(0,grantedAuthorities.size());
+        authorityManager.removeAuthority(user,existSimpleGrantedAuthority);
+        assertEquals(0,user.getGrantedAuthorities().size());
 
     }
 }

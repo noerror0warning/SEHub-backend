@@ -34,7 +34,9 @@ public class SimpleAuthorityManager implements AuthorityManager {
             User userToBeGranted=userToBeGrantedOpt.get();//获取用户
             List<GrantedAuthority> grantedAuthorityList=userToBeGranted.getGrantedAuthorities();//获取权限列表
             if(!grantedAuthorityList.contains(authority)) {//如果没有此权限进行追加并存储
-                grantedAuthorityList.add(authority);
+                List<GrantedAuthority> changeable=new ArrayList<>(grantedAuthorityList);//防止查询本身是由数组转化而成导致的不可修改
+                changeable.add(authority);//添加权限
+                userToBeGranted.setGrantedAuthorities(changeable);//重设
                 userRepository.save(userToBeGranted);
             }
             return true;
@@ -49,7 +51,9 @@ public class SimpleAuthorityManager implements AuthorityManager {
             User userToBeGranted=userToBeGrantedOpt.get();//获取用户
             List<GrantedAuthority> grantedAuthorityList=userToBeGranted.getGrantedAuthorities();//获取权限列表
             if(grantedAuthorityList.contains(authority)) {//如果没有此权限进行追加并存储
-                grantedAuthorityList.remove(authority);
+                List<GrantedAuthority> changeable=new ArrayList<>(grantedAuthorityList);//防止查询本身是由数组转化而成导致的不可修改
+                changeable.remove(authority);//移除权限
+                userToBeGranted.setGrantedAuthorities(changeable);//重设
                 userRepository.save(userToBeGranted);
             }
             return true;
