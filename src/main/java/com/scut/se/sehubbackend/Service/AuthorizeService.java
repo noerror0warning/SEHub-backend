@@ -10,6 +10,7 @@ import org.jose4j.lang.JoseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -76,12 +77,13 @@ public class AuthorizeService {
     private ResponseEntity<Map<String,Object>> dynamicAuthorityOperation(User userToAuthorize, String dynamicAuthority, AuthorityOperation operation){
         GrantedAuthority authority=authorityManager.generateAuthority(dynamicAuthority);//根据请求生成权限
         Optional<User> user=userRepository.findById(userToAuthorize.getStudentNO());//查找被授权人
-        User operator=(User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();//获取授权操作者
-        if(operator==null||!user.isPresent()||authority==null)//未找到被授权人或没有对应的权限
+        Authentication authentication=SecurityContextHolder.getContext().getAuthentication();//当前线程的认证情况
+        Optional<User> operatorOptional=userRepository.findById((String)authentication.getPrincipal());//获得操作者
+        if(!operatorOptional.isPresent()||!user.isPresent()||authority==null)//未找到被授权人或没有对应的权限
             return new ResponseEntity<Map<String, Object>>(HttpStatus.BAD_REQUEST);
 
         //找到被授权人时
-        if (decisionManager.decide(operator,user.get(),authority)){//是否允许权限变更
+        if (decisionManager.decide(operatorOptional.get(),user.get(),authority)){//是否允许权限变更
             Boolean result;
             switch (operation){
                 case AUTHORIZATION:result=authorityManager.addAuthority(user.get(),authority);
