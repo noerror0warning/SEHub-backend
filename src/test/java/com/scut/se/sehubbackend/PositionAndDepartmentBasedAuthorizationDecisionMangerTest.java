@@ -66,14 +66,41 @@ public class PositionAndDepartmentBasedAuthorizationDecisionMangerTest {
         /**
          *下级对上级无权修改权限
          */
+        //部长对常委
+        assertEquals(false,decisionManger.decide(pengTianXiang,xieKun,mapper.map(Position.StandingCommittee,null)));
+        assertEquals(false,decisionManger.decide(pengTianXiang,xieKun,mapper.mapDynamic(null,null)));
+        assertEquals(false,decisionManger.decide(guoJunWei,luXinNan,mapper.map(Position.StandingCommittee,null)));
+        assertEquals(false,decisionManger.decide(guoJunWei,luXinNan,mapper.mapDynamic(null,null)));
+        //部员对部长
+        assertEquals(false,decisionManger.decide(liuYiXi,chenYang,mapper.map(Position.Minister,Department.Research)));
+        assertEquals(false,decisionManger.decide(liuYiXi,chenYang,mapper.mapDynamic(Department.Research,null)));
+        assertEquals(false,decisionManger.decide(zhangYiYun,guoJunWei,mapper.map(Position.Minister,Department.Quality)));
+        assertEquals(false,decisionManger.decide(zhangYiYun,pengTianXiang,mapper.mapDynamic(Department.Research,null)));
+        //部员对常委
+        assertEquals(false,decisionManger.decide(liuYiXi,xieKun,mapper.map(Position.StandingCommittee,null)));
+        assertEquals(false,decisionManger.decide(liuYiXi,xieKun,mapper.mapDynamic(null,null)));
+        assertEquals(false,decisionManger.decide(sunJiaYu,luXinNan,mapper.map(Position.StandingCommittee,null)));
+        assertEquals(false,decisionManger.decide(sunJiaYu,luXinNan,mapper.mapDynamic(null,null)));
 
         /**
          * 不同部门之间无权修改权限
          */
+        //不同部门的部长对干事
+        assertEquals(false,decisionManger.decide(guoJunWei,zhangYiYun,mapper.map(Position.Staff,Department.Research)));
+        assertEquals(false,decisionManger.decide(guoJunWei,zhangYiYun,mapper.mapDynamic(Department.Research,null)));
+        assertEquals(false,decisionManger.decide(guoJunWei,sunJiaYu,mapper.map(Position.Staff,Department.Media)));
+        assertEquals(false,decisionManger.decide(guoJunWei,sunJiaYu,mapper.mapDynamic(Department.Media,null)));
 
         /**
          *常委对部长、部员的职位不可修改
          */
+        //常委对部长
+        assertEquals(false,decisionManger.decide(luXinNan,guoJunWei,mapper.map(Position.Minister,Department.Quality)));
+        assertEquals(false,decisionManger.decide(luXinNan,pengTianXiang,mapper.map(Position.Minister,Department.Research)));
+        //常委对部员
+        assertEquals(false,decisionManger.decide(xieKun,liuYiXi,mapper.map(Position.Staff,Department.Research)));
+        assertEquals(false,decisionManger.decide(xieKun,zhangYiYun,mapper.map(Position.Staff,Department.Research)));
+        assertEquals(false,decisionManger.decide(xieKun,sunJiaYu,mapper.map(Position.Staff,Department.Media)));
 
         /**
          *常委对部长、部员的动态权限有权修改
@@ -86,6 +113,8 @@ public class PositionAndDepartmentBasedAuthorizationDecisionMangerTest {
         /**
          *部长对同部门部员的动态权限有权修改
          */
+        assertEquals(true,decisionManger.decide(pengTianXiang,liuYiXi,mapper.mapDynamic(Department.Research,null)));
+        assertEquals(true,decisionManger.decide(chenYang,zhangYiYun,mapper.mapDynamic(Department.Research,null)));
     }
 
     @Test

@@ -19,6 +19,6 @@ public interface AuthorizationDecisionManager {
      * @param dynamicAuthority 要变更的权限
      * @return 是否有权变更
      */
-    public Boolean decide(UserDetails operator,UserDetails user, GrantedAuthority dynamicAuthority);
+    /*public*/ Boolean decide(UserDetails operator,UserDetails user, GrantedAuthority dynamicAuthority);
 
 }
