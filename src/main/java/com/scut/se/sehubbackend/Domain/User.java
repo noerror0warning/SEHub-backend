@@ -8,6 +8,7 @@ import lombok.Singular;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.io.Serializable;
@@ -31,6 +32,7 @@ public class  User implements UserDetails,Serializable {
     Position position;//职位
 
     @Singular
+    @ElementCollection
     List<GrantedAuthority> grantedAuthorities;//权限
 
     String password;//密码
