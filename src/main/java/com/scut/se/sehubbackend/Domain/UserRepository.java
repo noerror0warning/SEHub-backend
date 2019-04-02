@@ -2,7 +2,9 @@ package com.scut.se.sehubbackend.Domain;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
-public interface UserDAO extends JpaRepository<User,String> {
+@Transactional
+public interface UserRepository extends JpaRepository<UserAuthentication,String> {
 }

@@ -1,28 +1,37 @@
 package com.scut.se.sehubbackend.Domain;
 
-import com.scut.se.sehubbackend.Enumeration.Department;
-import com.scut.se.sehubbackend.Enumeration.Position;
-import lombok.Data;
+import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Set;
 
 @Data
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class User implements Serializable {
 
     private static final long serialVersionUID=1L;
 
     @Id
+    @NotNull
     String studentNO;
 
-    String name;
 
-    Department department;
 
-    Position position;
-
+//    @ColumnTransformer(
+//            read = "",
+//            write = ""
+//    )
     String password;
 
+    @ElementCollection
+    @Singular
+    Set<GrantedAuthority> grantedAuthorities;
 }
