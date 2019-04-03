@@ -5,6 +5,7 @@ import com.scut.se.sehubbackend.Enumeration.Position;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
@@ -22,5 +23,6 @@ public class UserHistory implements Serializable {
     Position position;
 
     @ManyToOne
+    @NotNull
     UserAuthentication userAuthentication;
 }
