@@ -12,8 +12,10 @@ import java.io.Serializable;
 @Data
 public class UserHistory implements Serializable {
 
+    private static final Long serialVersionUID=5L;
+
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
     @Enumerated(EnumType.STRING)
