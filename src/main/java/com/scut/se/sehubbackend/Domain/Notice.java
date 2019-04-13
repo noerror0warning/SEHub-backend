@@ -20,10 +20,10 @@ public class Notice implements Serializable {
     @Enumerated(EnumType.STRING)
     NoticeType type;
 
-    @OneToOne
+    @ManyToOne
     UserAuthentication sponsor;
 
-    @OneToOne
+    @ManyToOne
     @NotNull
     UserAuthentication acceptor;
 

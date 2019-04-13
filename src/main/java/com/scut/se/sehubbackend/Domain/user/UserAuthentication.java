@@ -29,22 +29,21 @@ public class UserAuthentication implements Serializable {
 //    )
     String password;
 
+    @NotNull
+    @OneToOne(
+            mappedBy = "userAuthentication",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    UserInformation userInformation;
+
     @OneToMany(
             mappedBy = "owner",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
     Set<UserAuthorityRecord> authorities;
-
-
-    @NotNull
-    @OneToOne(
-            mappedBy = "user",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    UserInformation userInformation;
-
+    
     @OneToMany(
             mappedBy = "userAuthentication",
             cascade = CascadeType.ALL,

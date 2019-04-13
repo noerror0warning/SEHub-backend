@@ -38,7 +38,7 @@ public class ApplicationCommonInformation implements Serializable {
     @OneToOne
     UserAuthentication lastToModify;
 
-    @OneToOne
+    @ManyToOne
     @NotNull
     UserAuthentication sponsor;
 
