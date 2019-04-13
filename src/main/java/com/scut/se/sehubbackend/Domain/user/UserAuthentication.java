@@ -10,6 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Set;
+import java.util.SortedSet;
 
 @Data
 @Entity
@@ -51,7 +52,7 @@ public class UserAuthentication implements Serializable, UserDetails {
             orphanRemoval = true
     )
     @NotNull
-    Set<UserHistory> userHistories;
+    SortedSet<UserHistory> userHistories;
 
     @Override
     public String getUsername() {

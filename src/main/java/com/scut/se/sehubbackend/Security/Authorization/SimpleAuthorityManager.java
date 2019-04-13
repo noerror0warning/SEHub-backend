@@ -1,7 +1,8 @@
 package com.scut.se.sehubbackend.Security.Authorization;
 
-import com.scut.se.sehubbackend.Domain.User;
-import com.scut.se.sehubbackend.Repository.UserRepository;
+import com.scut.se.sehubbackend.Domain.user.UserAuthentication;
+import com.scut.se.sehubbackend.Domain.user.UserAuthorityRecord;
+import com.scut.se.sehubbackend.Repository.user.UserAuthenticationRepository;
 import com.scut.se.sehubbackend.Security.Authorization.interfaces.AuthorityManager;
 import com.scut.se.sehubbackend.Security.Authorization.interfaces.AuthorityMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +10,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 
 /**
@@ -24,19 +25,19 @@ import java.util.Optional;
 public class SimpleAuthorityManager implements AuthorityManager {
 
     @Autowired AuthorityMapper mapper;
-    @Autowired UserRepository userRepository;
+    @Autowired UserAuthenticationRepository userRepository;
 
     @Override
     public Boolean addAuthority(UserDetails user, GrantedAuthority authority) {
-        Optional<User> userToBeGrantedOpt=userRepository.findById(user.getUsername());//根据学号筛选
+        Optional<UserAuthentication> userToBeGrantedOpt=userRepository.findById(user.getUsername());//根据学号筛选
 
         if (userToBeGrantedOpt.isPresent()){//检测学号对应用户是否存在
-            User userToBeGranted=userToBeGrantedOpt.get();//获取用户
-            List<GrantedAuthority> grantedAuthorityList=userToBeGranted.getGrantedAuthorities();//获取权限列表
-            if(!grantedAuthorityList.contains(authority)) {//如果没有此权限进行追加并存储
-                List<GrantedAuthority> changeable=new ArrayList<>(grantedAuthorityList);//防止查询本身是由数组转化而成导致的不可修改
+            UserAuthentication userToBeGranted=userToBeGrantedOpt.get();//获取用户
+            Set<GrantedAuthority> grantedAuthoritySet= UserAuthorityRecord.toGrantedAuthorities(userToBeGranted.getAuthorities());//获取权限列表
+            if(!grantedAuthoritySet.contains(authority)) {//如果没有此权限进行追加并存储
+                Set<GrantedAuthority> changeable=new HashSet<>(grantedAuthoritySet);//防止查询本身是由数组转化而成导致的不可修改
                 changeable.add(authority);//添加权限
-                userToBeGranted.setGrantedAuthorities(changeable);//重设
+                userToBeGranted.setAuthorities(UserAuthorityRecord.toUserAuthorityRecords(userToBeGranted,changeable));//重设
                 userRepository.save(userToBeGranted);
             }
             return true;
@@ -45,15 +46,15 @@ public class SimpleAuthorityManager implements AuthorityManager {
 
     @Override
     public Boolean removeAuthority(UserDetails user, GrantedAuthority authority) {
-        Optional<User> userToBeGrantedOpt=userRepository.findById(user.getUsername());//根据学号筛选
+        Optional<UserAuthentication> userToBeGrantedOpt=userRepository.findById(user.getUsername());//根据学号筛选
 
         if (userToBeGrantedOpt.isPresent()){//检测学号对应用户是否存在
-            User userToBeGranted=userToBeGrantedOpt.get();//获取用户
-            List<GrantedAuthority> grantedAuthorityList=userToBeGranted.getGrantedAuthorities();//获取权限列表
-            if(grantedAuthorityList.contains(authority)) {//如果没有此权限进行追加并存储
-                List<GrantedAuthority> changeable=new ArrayList<>(grantedAuthorityList);//防止查询本身是由数组转化而成导致的不可修改
+            UserAuthentication userToBeGranted=userToBeGrantedOpt.get();//获取用户
+            Set<GrantedAuthority> grantedAuthoritySet=UserAuthorityRecord.toGrantedAuthorities(userToBeGranted.getAuthorities());//获取权限列表
+            if(grantedAuthoritySet.contains(authority)) {//如果没有此权限进行追加并存储
+                Set<GrantedAuthority> changeable=new HashSet<>(grantedAuthoritySet);//防止查询本身是由数组转化而成导致的不可修改
                 changeable.remove(authority);//移除权限
-                userToBeGranted.setGrantedAuthorities(changeable);//重设
+                userToBeGranted.setAuthorities(UserAuthorityRecord.toUserAuthorityRecords(userToBeGranted,changeable));//重设
                 userRepository.save(userToBeGranted);
             }
             return true;

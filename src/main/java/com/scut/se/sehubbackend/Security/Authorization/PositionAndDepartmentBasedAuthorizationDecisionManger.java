@@ -1,6 +1,5 @@
 package com.scut.se.sehubbackend.Security.Authorization;
 
-import com.scut.se.sehubbackend.Domain.User;
 import com.scut.se.sehubbackend.Domain.user.UserAuthentication;
 import com.scut.se.sehubbackend.Enumeration.Department;
 import com.scut.se.sehubbackend.Enumeration.Position;
@@ -36,10 +35,10 @@ public class PositionAndDepartmentBasedAuthorizationDecisionManger implements Au
         }
 
         //获取操作者和被操作者的职位和部门
-        Position operatorPosition=((UserAuthentication) operator).getPosition();
-        Position userPosition=((UserAuthentication)user).getPosition();
-        Department operatorDepartment=((UserAuthentication) operator).getDepartment();
-        Department userDepartment=((UserAuthentication)user).getDepartment();
+        Position operatorPosition=((UserAuthentication) operator).getUserHistories().first().getPosition();
+        Position userPosition=((UserAuthentication)user).getUserHistories().first().getPosition();
+        Department operatorDepartment=((UserAuthentication) operator).getUserHistories().first().getDepartment();
+        Department userDepartment=((UserAuthentication)user).getUserHistories().first().getDepartment();
 
         if(isNotImmutable(dynamicAuthority)){//若权限可变
             if(operatorPosition==Position.StandingCommittee){//操作者为常委时
