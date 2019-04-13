@@ -19,7 +19,7 @@ public class UserInformation implements Serializable {
     private static final long serialVersionUID=2L;
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
     @Column(name = "`name`")
