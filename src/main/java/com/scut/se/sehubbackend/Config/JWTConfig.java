@@ -21,9 +21,7 @@ import org.springframework.stereotype.Component;
 public class JWTConfig {
 
     Integer rsaKeySize;
-
     Integer expired;
-
     String issuer;
 
     @Bean
