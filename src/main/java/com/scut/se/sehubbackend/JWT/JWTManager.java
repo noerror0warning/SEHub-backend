@@ -1,7 +1,7 @@
 package com.scut.se.sehubbackend.JWT;
 
-import com.scut.se.sehubbackend.Config.JWTConfig;
-import com.scut.se.sehubbackend.Domain.User;
+import com.scut.se.sehubbackend.Configuration.JWTConfiguration;
+import com.scut.se.sehubbackend.Domain.user.UserAuthentication;
 import org.jose4j.jwk.RsaJsonWebKey;
 import org.jose4j.jws.AlgorithmIdentifiers;
 import org.jose4j.jws.JsonWebSignature;
@@ -28,7 +28,7 @@ public class JWTManager {
     @Autowired
     JWTConfig jwtConfig;//配置类
 
-    public String encode(User user) throws JoseException {
+    public String encode(UserAuthentication user) throws JoseException {
         JwtClaims jwtClaims=new JwtClaims();//创建一个jwt
         jwtClaims.setIssuer(jwtConfig.getIssuer());//发布组织
         jwtClaims.setSubject(user.getStudentNO());//以学号为验证信息
