@@ -9,14 +9,16 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 
 /**
- * 一个简单的权限管理者的实现
- * 根据学号查询数据库中的用户，对权限变更后更新数据库
- * 注意，该类仅负责行为，是否有权执行这些行为应由调用者决定
+ * 一个简单的权限管理者的实现<br/>
+ * 根据学号查询数据库中的用户，对权限变更后更新数据库<br/>
+ * 字符串构造权限的服务委派给{@code mapper}提供
+ * @see AuthorityManager
  */
 @Service
 public class SimpleAuthorityManager implements AuthorityManager {
@@ -32,7 +34,9 @@ public class SimpleAuthorityManager implements AuthorityManager {
             User userToBeGranted=userToBeGrantedOpt.get();//获取用户
             List<GrantedAuthority> grantedAuthorityList=userToBeGranted.getGrantedAuthorities();//获取权限列表
             if(!grantedAuthorityList.contains(authority)) {//如果没有此权限进行追加并存储
-                grantedAuthorityList.add(authority);
+                List<GrantedAuthority> changeable=new ArrayList<>(grantedAuthorityList);//防止查询本身是由数组转化而成导致的不可修改
+                changeable.add(authority);//添加权限
+                userToBeGranted.setGrantedAuthorities(changeable);//重设
                 userRepository.save(userToBeGranted);
             }
             return true;
@@ -47,13 +51,20 @@ public class SimpleAuthorityManager implements AuthorityManager {
             User userToBeGranted=userToBeGrantedOpt.get();//获取用户
             List<GrantedAuthority> grantedAuthorityList=userToBeGranted.getGrantedAuthorities();//获取权限列表
             if(grantedAuthorityList.contains(authority)) {//如果没有此权限进行追加并存储
-                grantedAuthorityList.remove(authority);
+                List<GrantedAuthority> changeable=new ArrayList<>(grantedAuthorityList);//防止查询本身是由数组转化而成导致的不可修改
+                changeable.remove(authority);//移除权限
+                userToBeGranted.setGrantedAuthorities(changeable);//重设
                 userRepository.save(userToBeGranted);
             }
             return true;
         }else return false;//用户不存在
     }
 
+    /**
+     * 委派给{@code mapper}提供
+     * @param authority 输入的字符串
+     * @return 构造出的权限
+     */
     @Override
     public GrantedAuthority generateAuthority(String authority) {
         return mapper.map(authority);
