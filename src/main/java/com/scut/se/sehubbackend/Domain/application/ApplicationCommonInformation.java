@@ -1,5 +1,6 @@
-package com.scut.se.sehubbackend.Domain;
+package com.scut.se.sehubbackend.Domain.application;
 
+import com.scut.se.sehubbackend.Domain.user.UserAuthentication;
 import com.scut.se.sehubbackend.Enumeration.ApprovalStatus;
 import com.scut.se.sehubbackend.Enumeration.Department;
 import lombok.Data;
@@ -20,6 +21,7 @@ public class ApplicationCommonInformation implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
+    @Enumerated(value = EnumType.STRING)
     @NotNull
     ApprovalStatus status;
 
@@ -42,7 +44,7 @@ public class ApplicationCommonInformation implements Serializable {
 
     @Enumerated(value = EnumType.STRING)
     @NotNull
-    Department accept;
+    Department acceptDepartment;
 
     @OneToMany
     @NotNull

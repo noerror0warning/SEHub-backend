@@ -1,7 +1,7 @@
 package com.scut.se.sehubbackend.JWT;
 
 import com.scut.se.sehubbackend.Configuration.JWTConfiguration;
-import com.scut.se.sehubbackend.Domain.UserAuthentication;
+import com.scut.se.sehubbackend.Domain.user.UserAuthentication;
 import org.jose4j.jwk.RsaJsonWebKey;
 import org.jose4j.jws.AlgorithmIdentifiers;
 import org.jose4j.jws.JsonWebSignature;

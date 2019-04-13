@@ -1,6 +1,6 @@
-package com.scut.se.sehubbackend.Repository;
+package com.scut.se.sehubbackend.Repository.user;
 
-import com.scut.se.sehubbackend.Domain.UserAuthorityRecord;
+import com.scut.se.sehubbackend.Domain.user.UserAuthorityRecord;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

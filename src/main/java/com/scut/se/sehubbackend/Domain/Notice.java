@@ -1,20 +1,6 @@
 package com.scut.se.sehubbackend.Domain;
 
-<<<<<<< HEAD
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.validation.constraints.NotNull;
-
-public class Notice {
-
-    @Id
-    @GeneratedValue
-    Long id;
-
-    @NotNull
-    UserAuthentication sponsor;
-
-=======
+import com.scut.se.sehubbackend.Domain.user.UserAuthentication;
 import com.scut.se.sehubbackend.Enumeration.NoticeType;
 
 import javax.persistence.*;
@@ -38,20 +24,12 @@ public class Notice implements Serializable {
     UserAuthentication sponsor;
 
     @OneToOne
->>>>>>> origin/domain
     @NotNull
     UserAuthentication acceptor;
 
     @NotNull
-<<<<<<< HEAD
-    String authority;
-
-
-
-=======
     Long principalId;
 
     @Lob
     String remarks;
->>>>>>> origin/domain
 }

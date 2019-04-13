@@ -1,4 +1,4 @@
-package com.scut.se.sehubbackend.Domain;
+package com.scut.se.sehubbackend.Domain.user;
 
 import com.scut.se.sehubbackend.Enumeration.Department;
 import com.scut.se.sehubbackend.Enumeration.Position;

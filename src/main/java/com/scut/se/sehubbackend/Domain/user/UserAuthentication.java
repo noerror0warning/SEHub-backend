@@ -1,4 +1,4 @@
-package com.scut.se.sehubbackend.Domain;
+package com.scut.se.sehubbackend.Domain.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

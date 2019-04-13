@@ -1,7 +1,7 @@
 package com.scut.se.sehubbackend.Controller;
 
-import com.scut.se.sehubbackend.Repository.UserInformationRepository;
-import com.scut.se.sehubbackend.Repository.UserAuthenticationRepository;
+import com.scut.se.sehubbackend.Repository.user.UserInformationRepository;
+import com.scut.se.sehubbackend.Repository.user.UserAuthenticationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

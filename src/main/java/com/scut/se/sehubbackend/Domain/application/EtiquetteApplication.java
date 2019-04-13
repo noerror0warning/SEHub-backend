@@ -1,4 +1,4 @@
-package com.scut.se.sehubbackend.Domain;
+package com.scut.se.sehubbackend.Domain.application;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -16,20 +16,22 @@ public class EtiquetteApplication implements Serializable {
 
     @OneToOne
     @NotNull
-    ApplicationCommonInfo commonInfo;
+    ApplicationCommonInformation commonInformation;
 
     @NotNull
-    String eventName;
+    String name;
 
     @NotNull
-    String eventSite;
+    String site;
 
     @NotNull
-    Date eventTime;
+    Date time;
 
     @NotNull
-    Integer etiquetteAmount;
+    int etiquetteAmount;
 
-    @Lob
+    @NotNull
+    String task;
+
     String remarks;
 }
