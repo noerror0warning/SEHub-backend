@@ -22,12 +22,12 @@ public class UserInformation implements Serializable {
     @GeneratedValue
     Long id;
 
-    @NotNull
-    @OneToOne
-    UserAuthentication user;
-
     @Column(name = "`name`")
     @NotNull
     String name;
+
+    @NotNull
+    @OneToOne
+    UserAuthentication userAuthentication;
 
 }

@@ -8,7 +8,7 @@ import java.util.Set;
 
 @Entity
 @Data
-public class ApplicationCommonInfo {
+public class ApplicationCommonInformation {
 
     @Id
     @GeneratedValue

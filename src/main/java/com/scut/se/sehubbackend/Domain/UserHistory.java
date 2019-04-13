@@ -16,9 +16,13 @@ public class UserHistory implements Serializable {
     @GeneratedValue
     Long id;
 
+    @NotNull
+    Long year;
+
     @Enumerated(EnumType.STRING)
     Department department;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     Position position;
 
