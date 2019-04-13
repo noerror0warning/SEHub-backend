@@ -1,7 +1,8 @@
-package com.scut.se.sehubbackend.JWT;
+package com.scut.se.sehubbackend.Security.JWT;
 
-import com.scut.se.sehubbackend.Configuration.JWTConfiguration;
+import com.scut.se.sehubbackend.Config.JWTConfig;
 import com.scut.se.sehubbackend.Domain.user.UserAuthentication;
+import com.scut.se.sehubbackend.Repository.user.UserAuthenticationRepository;
 import org.jose4j.jwk.RsaJsonWebKey;
 import org.jose4j.jws.AlgorithmIdentifiers;
 import org.jose4j.jws.JsonWebSignature;
@@ -16,7 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 /**
- * 提供将一个用户编码为{@code jwt}的{@link #encode(User)}、将一个{@code jwt}解码为用户的{@link #decode(String)}功能<br/>
+ * 提供将一个用户编码为{@code jwt}的{@link #encode(UserAuthentication)}、将一个{@code jwt}解码为用户的{@link #decode(String)}功能<br/>
  */
 @Service
 public class JWTManager {
@@ -25,7 +26,7 @@ public class JWTManager {
     @Autowired JsonWebSignature jsonWebSignature;//签名
     @Autowired JwtConsumer jwtConsumer;//反向构造器
     @Autowired JWTConfig jwtConfig;//配置类
-    @Autowired UserRepository userRepository;//用户dao
+    @Autowired UserAuthenticationRepository userRepository;//用户dao
 
     public String encode(UserAuthentication user) throws JoseException {
         JwtClaims jwtClaims=new JwtClaims();//创建一个jwt
@@ -47,9 +48,9 @@ public class JWTManager {
      * @param jwt 提供的jwt
      * @return 解码后得到的用户，无效的{@code jwt}返回null
      */
-    public User decode(String jwt) throws MalformedClaimException {
+    public UserAuthentication decode(String jwt) throws MalformedClaimException {
         try {
-            Optional<User> user=userRepository.findById(jwtConsumer.processToClaims(jwt).getSubject());
+            Optional<UserAuthentication> user=userRepository.findById(jwtConsumer.processToClaims(jwt).getSubject());
             if(user.isPresent())
                 return user.get();
             return null;

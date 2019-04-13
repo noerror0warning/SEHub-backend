@@ -1,11 +1,11 @@
 package com.scut.se.sehubbackend.Service;
 
-import com.scut.se.sehubbackend.Domain.User;
+import com.scut.se.sehubbackend.Domain.user.UserAuthentication;
 import com.scut.se.sehubbackend.Enumeration.AuthorityOperation;
-import com.scut.se.sehubbackend.JWT.JWTManager;
-import com.scut.se.sehubbackend.Repository.UserRepository;
+import com.scut.se.sehubbackend.Repository.user.UserAuthenticationRepository;
 import com.scut.se.sehubbackend.Security.Authorization.interfaces.AuthorityManager;
 import com.scut.se.sehubbackend.Security.Authorization.interfaces.AuthorizationDecisionManager;
+import com.scut.se.sehubbackend.Security.JWT.JWTManager;
 import org.jose4j.lang.JoseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,7 +33,7 @@ import java.util.Optional;
 @CrossOrigin
 public class AuthorizeService {
 
-    @Autowired UserRepository userRepository;
+    @Autowired UserAuthenticationRepository userRepository;
     @Autowired JWTManager jwtManager;
     @Autowired AuthorizationDecisionManager decisionManager;
     @Autowired AuthorityManager authorityManager;
@@ -43,27 +43,27 @@ public class AuthorizeService {
      * @param user 具体的登陆用户
      * @return 编码后得到的jwt
      */
-    public String login(User user) throws JoseException {
+    public String login(UserAuthentication user) throws JoseException {
         return jwtManager.encode(user);
     }
 
     /**
-     * 授权操作，实际由由{@link #dynamicAuthorityOperation(User, String, AuthorityOperation)}代理
+     * 授权操作，实际由由{@link #dynamicAuthorityOperation(UserAuthentication, String, AuthorityOperation)}代理
      * @param userToAuthorize 被变更者
      * @param dynamicAuthority 目标权限
      * @return
      */
-    public ResponseEntity<Map<String,Object>> authorize(User userToAuthorize, String dynamicAuthority){
+    public ResponseEntity<Map<String,Object>> authorize(UserAuthentication userToAuthorize, String dynamicAuthority){
         return dynamicAuthorityOperation(userToAuthorize,dynamicAuthority,AuthorityOperation.AUTHORIZATION);
     }
 
     /**
-     * 解权操作，实际由{@link #dynamicAuthorityOperation(User, String, AuthorityOperation)}代理
+     * 解权操作，实际由{@link #dynamicAuthorityOperation(UserAuthentication, String, AuthorityOperation)}代理
      * @param userToAuthorize 被变更者
      * @param dynamicAuthority 目标权限
      * @return
      */
-    public ResponseEntity<Map<String,Object>> deauthorize(User userToAuthorize, String dynamicAuthority){
+    public ResponseEntity<Map<String,Object>> deauthorize(UserAuthentication userToAuthorize, String dynamicAuthority){
         return dynamicAuthorityOperation(userToAuthorize,dynamicAuthority,AuthorityOperation.DEAUTHORIZATION);
     }
 
@@ -74,11 +74,11 @@ public class AuthorizeService {
      * @param operation 具体的操作，见{@link AuthorityOperation}
      * @return 请求实体
      */
-    private ResponseEntity<Map<String,Object>> dynamicAuthorityOperation(User userToAuthorize, String dynamicAuthority, AuthorityOperation operation){
+    private ResponseEntity<Map<String,Object>> dynamicAuthorityOperation(UserAuthentication userToAuthorize, String dynamicAuthority, AuthorityOperation operation){
         GrantedAuthority authority=authorityManager.generateAuthority(dynamicAuthority);//根据请求生成权限
-        Optional<User> user=userRepository.findById(userToAuthorize.getStudentNO());//查找被授权人
+        Optional<UserAuthentication> user=userRepository.findById(userToAuthorize.getStudentNO());//查找被授权人
         Authentication authentication=SecurityContextHolder.getContext().getAuthentication();//当前线程的认证情况
-        Optional<User> operatorOptional=userRepository.findById((String)authentication.getPrincipal());//获得操作者
+        Optional<UserAuthentication> operatorOptional=userRepository.findById((String)authentication.getPrincipal());//获得操作者
         if(!operatorOptional.isPresent()||!user.isPresent()||authority==null)//未找到被授权人或没有对应的权限
             return new ResponseEntity<Map<String, Object>>(HttpStatus.BAD_REQUEST);
 

@@ -2,7 +2,7 @@ package com.scut.se.sehubbackend;
 
 
 import com.scut.se.sehubbackend.Domain.User;
-import com.scut.se.sehubbackend.JWT.JWTManager;
+import com.scut.se.sehubbackend.Security.JWT.JWTManager;
 import org.jose4j.jwt.MalformedClaimException;
 import org.jose4j.jwt.consumer.InvalidJwtException;
 import org.jose4j.lang.JoseException;
