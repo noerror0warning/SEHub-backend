@@ -1,27 +1,35 @@
 package com.scut.se.sehubbackend.Domain;
 
-import lombok.Data;
+import com.scut.se.sehubbackend.Domain.user.UserAuthentication;
+import com.scut.se.sehubbackend.Enumeration.NoticeType;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Entity
-@Data
-public class Notice {//通知数据表
+public class Notice implements Serializable {
+
+    private static final Long serialVersionUID=8L;
 
     @Id
-    int id;//通知id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
 
-    String type;//通知类型
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    NoticeType type;
 
-    String initiator;//通知的发起者
+    @ManyToOne
+    UserAuthentication sponsor;
 
-    String receiver;//通知的接收者
+    @ManyToOne
+    @NotNull
+    UserAuthentication acceptor;
 
-    int key;//通知信息的id，一般放申请表的id
+    @NotNull
+    Long principalId;
 
-    int info;//通知附加信息的id，放notice_text的id
-
-
+    @Lob
+    String remarks;
 }
