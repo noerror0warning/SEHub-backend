@@ -33,6 +33,5 @@ public class ResearchController {
     @RequestMapping("/bothWith")
     public void addBothWithout() {
 
-
     }
 }

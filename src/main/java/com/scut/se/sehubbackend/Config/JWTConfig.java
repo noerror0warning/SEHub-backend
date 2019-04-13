@@ -1,4 +1,4 @@
-package com.scut.se.sehubbackend.Configuration;
+package com.scut.se.sehubbackend.Config;
 
 import lombok.Data;
 import org.jose4j.jwa.AlgorithmConstraints;
@@ -12,11 +12,13 @@ import org.jose4j.lang.JoseException;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 @Configuration
 @ConfigurationProperties(prefix = "jwt")
 @Data
-public class JWTConfiguration {
+@Component
+public class JWTConfig {
 
     Integer rsaKeySize;
 
@@ -25,8 +27,8 @@ public class JWTConfiguration {
     String issuer;
 
     @Bean
-    RsaJsonWebKey rsaJsonWebKey(JWTConfiguration jwtConfiguration) throws JoseException {
-        return RsaJwkGenerator.generateJwk(jwtConfiguration.getRsaKeySize());
+    RsaJsonWebKey rsaJsonWebKey(JWTConfig jwtConfig) throws JoseException {
+        return RsaJwkGenerator.generateJwk(jwtConfig.getRsaKeySize());
     }
 
     @Bean
@@ -35,10 +37,10 @@ public class JWTConfiguration {
     }
 
     @Bean
-    JwtConsumer jwtConsumer(RsaJsonWebKey rsaJsonWebKey,JWTConfiguration jwtConfiguration){
+    JwtConsumer jwtConsumer(RsaJsonWebKey rsaJsonWebKey, JWTConfig jwtConfig){
         return new JwtConsumerBuilder()
                 .setRequireSubject()//要求有被发行对象
-                .setExpectedIssuer(jwtConfiguration.getIssuer())//检查发行者
+                .setExpectedIssuer(jwtConfig.getIssuer())//检查发行者
                 .setRequireExpirationTime()//要求设置了过期时间
                 .setVerificationKey(rsaJsonWebKey.getKey())//公钥验证签名
                 .setJwsAlgorithmConstraints(//加密算法限制

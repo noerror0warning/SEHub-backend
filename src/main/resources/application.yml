@@ -17,6 +17,16 @@ jwt:
   rsaKeySize: 2048
   expired: 5
   issuer: SCUT-SE
+request:
+  uri:
+    login: /login
+    application:
+      prefix: /application
+      propaganda: /propaganda
+  header:
+    authority: jwt
+
+
 ---
 spring:
      profiles: dev
