@@ -5,22 +5,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@Getter
 public class WebConfig {
-
-    @Value("${request.uri.login}")
-    @Getter
-    String loginPage;
-
-    @Getter
-    String usernameParameter;
-
-    @Getter
-    String passwordParameter;
-
-
-    @Value("${request.header.authority}")
-    @Getter
-    String authorityKey;
-
-
+    @Value("${request.uri.login}") String loginPage;//登陆URL
+    @Value("${request.parameter.username}") String usernameParameter;//用户名参数key
+    @Value("${request.parameter.password}") String passwordParameter;//密码参数key
+    @Value("${request.header.authority}") String authorityKey;//认证头的key
 }

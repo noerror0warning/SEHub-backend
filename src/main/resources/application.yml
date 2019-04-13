@@ -25,6 +25,9 @@ request:
       propaganda: /propaganda
   header:
     authority: jwt
+  parameter:
+    username: username
+    password: password
 
 
 ---
