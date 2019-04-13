@@ -24,7 +24,7 @@ public class JWTAuthenticationProvider implements AuthenticationProvider {
         return new UsernamePasswordAuthenticationToken(//成功验证并生成授权
                 user.getStudentNO(),
                 null,
-                UserAuthorityRecord.toGrantedAuthorities(user.getAuthorities())
+                UserAuthorityRecord.toGrantedAuthorities(user.getAuthorityRecords())
         );
     }
 

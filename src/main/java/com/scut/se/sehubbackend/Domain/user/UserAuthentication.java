@@ -1,14 +1,13 @@
 package com.scut.se.sehubbackend.Domain.user;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Set;
 import java.util.SortedSet;
 
@@ -44,8 +43,9 @@ public class UserAuthentication implements Serializable, UserDetails {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    Set<UserAuthorityRecord> authorities;
-    
+    Set<UserAuthorityRecord> authorityRecords;
+
+    @Singular
     @OneToMany(
             mappedBy = "userAuthentication",
             cascade = CascadeType.ALL,
@@ -53,6 +53,14 @@ public class UserAuthentication implements Serializable, UserDetails {
     )
     @NotNull
     SortedSet<UserHistory> userHistories;
+
+    public void setAuthorityRecords(Set<GrantedAuthority> grantedAuthorities){
+        UserAuthorityRecord.toUserAuthorityRecords(this,grantedAuthorities);
+    }
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return UserAuthorityRecord.toGrantedAuthorities(getAuthorityRecords());
+    }
 
     @Override
     public String getUsername() {

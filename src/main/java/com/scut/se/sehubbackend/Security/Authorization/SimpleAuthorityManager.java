@@ -33,11 +33,11 @@ public class SimpleAuthorityManager implements AuthorityManager {
 
         if (userToBeGrantedOpt.isPresent()){//检测学号对应用户是否存在
             UserAuthentication userToBeGranted=userToBeGrantedOpt.get();//获取用户
-            Set<GrantedAuthority> grantedAuthoritySet= UserAuthorityRecord.toGrantedAuthorities(userToBeGranted.getAuthorities());//获取权限列表
+            Set<GrantedAuthority> grantedAuthoritySet= UserAuthorityRecord.toGrantedAuthorities(userToBeGranted.getAuthorityRecords());//获取权限列表
             if(!grantedAuthoritySet.contains(authority)) {//如果没有此权限进行追加并存储
                 Set<GrantedAuthority> changeable=new HashSet<>(grantedAuthoritySet);//防止查询本身是由数组转化而成导致的不可修改
                 changeable.add(authority);//添加权限
-                userToBeGranted.setAuthorities(UserAuthorityRecord.toUserAuthorityRecords(userToBeGranted,changeable));//重设
+                userToBeGranted.setAuthorityRecords(changeable);//重设
                 userRepository.save(userToBeGranted);
             }
             return true;
@@ -50,11 +50,11 @@ public class SimpleAuthorityManager implements AuthorityManager {
 
         if (userToBeGrantedOpt.isPresent()){//检测学号对应用户是否存在
             UserAuthentication userToBeGranted=userToBeGrantedOpt.get();//获取用户
-            Set<GrantedAuthority> grantedAuthoritySet=UserAuthorityRecord.toGrantedAuthorities(userToBeGranted.getAuthorities());//获取权限列表
+            Set<GrantedAuthority> grantedAuthoritySet=UserAuthorityRecord.toGrantedAuthorities(userToBeGranted.getAuthorityRecords());//获取权限列表
             if(grantedAuthoritySet.contains(authority)) {//如果没有此权限进行追加并存储
                 Set<GrantedAuthority> changeable=new HashSet<>(grantedAuthoritySet);//防止查询本身是由数组转化而成导致的不可修改
                 changeable.remove(authority);//移除权限
-                userToBeGranted.setAuthorities(UserAuthorityRecord.toUserAuthorityRecords(userToBeGranted,changeable));//重设
+                userToBeGranted.setAuthorityRecords(changeable);//重设
                 userRepository.save(userToBeGranted);
             }
             return true;

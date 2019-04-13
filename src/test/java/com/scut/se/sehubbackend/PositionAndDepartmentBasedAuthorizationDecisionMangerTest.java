@@ -1,6 +1,7 @@
 package com.scut.se.sehubbackend;
 
-import com.scut.se.sehubbackend.Domain.User;
+import com.scut.se.sehubbackend.Domain.user.UserAuthentication;
+import com.scut.se.sehubbackend.Domain.user.UserHistory;
 import com.scut.se.sehubbackend.Enumeration.Department;
 import com.scut.se.sehubbackend.Enumeration.Position;
 import com.scut.se.sehubbackend.Security.Authorization.HashAuthorityMapper;
@@ -23,25 +24,25 @@ public class PositionAndDepartmentBasedAuthorizationDecisionMangerTest {
             new PositionAndDepartmentBasedAuthorizationDecisionManger();
 
     AuthorityMapper mapper=new HashAuthorityMapper();
-    User luXinNan;//陆鑫楠
-    User xieKun;//解坤
-    User pengTianXiang;//彭天祥
-    User chenYang;//陈扬
-    User guoJunWei;//郭俊炜
-    User liuYiXi;//刘逸曦
-    User zhangYiYun;//张翊雲
-    User sunJiaYu;//孙嘉雨
+    UserAuthentication luXinNan;//陆鑫楠
+    UserAuthentication xieKun;//解坤
+    UserAuthentication pengTianXiang;//彭天祥
+    UserAuthentication chenYang;//陈扬
+    UserAuthentication guoJunWei;//郭俊炜
+    UserAuthentication liuYiXi;//刘逸曦
+    UserAuthentication zhangYiYun;//张翊雲
+    UserAuthentication sunJiaYu;//孙嘉雨
 
     @Before
     public void createUsers(){
-        luXinNan=User.builder().position(Position.StandingCommittee).build();//陆鑫楠
-        xieKun=User.builder().position(Position.StandingCommittee).build();//解坤
-        pengTianXiang=User.builder().position(Position.Minister).department(Department.Research).build();//彭天祥
-        chenYang=User.builder().position(Position.Minister).department(Department.Research).build();//陈扬
-        guoJunWei=User.builder().position(Position.Minister).department(Department.Quality).build();//郭俊炜
-        liuYiXi=User.builder().position(Position.Staff).department(Department.Research).build();//刘逸曦
-        zhangYiYun=User.builder().position(Position.Staff).department(Department.Research).build();//张翊雲
-        sunJiaYu=User.builder().position(Position.Staff).department(Department.Media).build();//孙嘉雨
+        luXinNan=UserAuthentication.builder().userHistory(UserHistory.builder().position(Position.StandingCommittee).build()).build();//陆鑫楠
+        xieKun=UserAuthentication.builder().userHistory(UserHistory.builder().position(Position.StandingCommittee).build()).build();//解坤
+        pengTianXiang=UserAuthentication.builder().userHistory(UserHistory.builder().position(Position.Minister).department(Department.Research).build()).build();//彭天祥
+        chenYang=UserAuthentication.builder().userHistory(UserHistory.builder().position(Position.Minister).department(Department.Research).build()).build();//陈扬
+        guoJunWei=UserAuthentication.builder().userHistory(UserHistory.builder().position(Position.Minister).department(Department.Quality).build()).build();//郭俊炜
+        liuYiXi=UserAuthentication.builder().userHistory(UserHistory.builder().position(Position.Staff).department(Department.Research).build()).build();//刘逸曦
+        zhangYiYun=UserAuthentication.builder().userHistory(UserHistory.builder().position(Position.Staff).department(Department.Research).build()).build();//张翊雲
+        sunJiaYu=UserAuthentication.builder().userHistory(UserHistory.builder().position(Position.Staff).department(Department.Media).build()).build();//孙嘉雨
     }
 
     @Test

@@ -1,7 +1,7 @@
 package com.scut.se.sehubbackend;
 
 
-import com.scut.se.sehubbackend.Domain.User;
+import com.scut.se.sehubbackend.Domain.user.UserAuthentication;
 import com.scut.se.sehubbackend.Security.JWT.JWTManager;
 import org.jose4j.jwt.MalformedClaimException;
 import org.jose4j.jwt.consumer.InvalidJwtException;
@@ -25,7 +25,7 @@ public class JWTManagerTest {
     JWTManager jwtManager;
 
     @Mock
-    User user;
+    UserAuthentication user;
 
     @Before
     public void before(){
@@ -35,7 +35,7 @@ public class JWTManagerTest {
     @Test
     public void testEncodeAndDecode() throws JoseException, MalformedClaimException, InvalidJwtException {
         String jwt=jwtManager.encode(user);//对user编码
-        User edUser=jwtManager.decode(jwt);//再解码
+        UserAuthentication edUser=jwtManager.decode(jwt);//再解码
         Assert.assertEquals(user.getStudentNO(),edUser.getStudentNO());//两者的studentNO应该一样
     }
 }

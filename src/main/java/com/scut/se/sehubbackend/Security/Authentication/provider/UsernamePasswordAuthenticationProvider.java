@@ -28,7 +28,7 @@ public class UsernamePasswordAuthenticationProvider implements AuthenticationPro
             return new UsernamePasswordAuthenticationToken(
                     authentication.getPrincipal(),
                     null,
-                    UserAuthorityRecord.toGrantedAuthorities(userOptional.get().getAuthorities())
+                    UserAuthorityRecord.toGrantedAuthorities(userOptional.get().getAuthorityRecords())
             );
         }
     }

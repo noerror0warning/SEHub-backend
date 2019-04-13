@@ -2,6 +2,7 @@ package com.scut.se.sehubbackend.Domain.user;
 
 import com.scut.se.sehubbackend.Enumeration.Department;
 import com.scut.se.sehubbackend.Enumeration.Position;
+import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import java.io.Serializable;
 
 @Entity
 @Data
+@Builder
 public class UserHistory implements Serializable {
 
     private static final Long serialVersionUID=5L;
