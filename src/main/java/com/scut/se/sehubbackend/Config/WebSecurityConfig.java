@@ -21,9 +21,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity
                 .addFilterAt(jwtPreAuthenticatedProcessingFilter, AbstractPreAuthenticatedProcessingFilter.class)
                 .addFilterAt(usernamePasswordAuthenticationProcessingFilter, UsernamePasswordAuthenticationFilter.class)
-                .formLogin()
-                    .usernameParameter(webConfig.getUsernameParameter()).passwordParameter(webConfig.getPasswordParameter())
-                    .loginPage(webConfig.getLoginPage());
+                .csrf().disable();
+//                .formLogin()
+//                    .usernameParameter(webConfig.getUsernameParameter()).passwordParameter(webConfig.getPasswordParameter())
+//                    .loginPage(webConfig.getLoginPage());
 
     }
 

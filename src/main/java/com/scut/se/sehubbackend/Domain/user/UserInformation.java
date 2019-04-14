@@ -1,9 +1,6 @@
 package com.scut.se.sehubbackend.Domain.user;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -26,8 +23,8 @@ public class UserInformation implements Serializable {
     @NotNull
     String name;
 
-    @NotNull
-    @OneToOne
+    @EqualsAndHashCode.Exclude
+    @OneToOne(optional = false)
     UserAuthentication userAuthentication;
 
 }

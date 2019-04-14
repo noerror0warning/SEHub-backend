@@ -1,6 +1,7 @@
 package com.scut.se.sehubbackend.Domain.user;
 
 import lombok.*;
+import org.hibernate.annotations.SortComparator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -30,7 +31,6 @@ public class UserAuthentication implements Serializable, UserDetails {
 //    )
     String password;
 
-    @NotNull
     @OneToOne(
             mappedBy = "userAuthentication",
             cascade = CascadeType.ALL,
@@ -51,7 +51,7 @@ public class UserAuthentication implements Serializable, UserDetails {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    @NotNull
+    @SortComparator(value = UserHistoryComparator.class)
     SortedSet<UserHistory> userHistories;
 
     public void setAuthorityRecords(Set<GrantedAuthority> grantedAuthorities){

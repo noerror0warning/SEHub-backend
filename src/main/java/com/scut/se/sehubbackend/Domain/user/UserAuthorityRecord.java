@@ -1,6 +1,7 @@
 package com.scut.se.sehubbackend.Domain.user;
 
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
@@ -43,10 +44,10 @@ public class UserAuthorityRecord implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @Setter
     @Getter
-    @NotNull
+    @EqualsAndHashCode.Exclude
     UserAuthentication owner;
 
     @NotNull
