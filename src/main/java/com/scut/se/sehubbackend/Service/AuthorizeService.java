@@ -43,7 +43,7 @@ public class AuthorizeService {
      * @return (jwt,200) - 成功登陆<br/>(null,401) - 登陆失败<br/>(null,500) - 服务器内部错误<br/>
      */
     public ResponseEntity<String> login() {
-        UserAuthentication user=(UserAuthentication)SecurityContextHolder.getContext().getAuthentication();
+        UserAuthentication user=(UserAuthentication)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (user==null){
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }else {

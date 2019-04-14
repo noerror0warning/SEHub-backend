@@ -1,6 +1,7 @@
 package com.scut.se.sehubbackend.Security.Authentication;
 
 import com.scut.se.sehubbackend.Config.WebConfig;
+import com.scut.se.sehubbackend.Repository.user.UserAuthenticationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,6 +20,8 @@ import java.io.IOException;
 
 @Component
 public class UsernamePasswordAuthenticationProcessingFilter extends UsernamePasswordAuthenticationFilter {
+
+    @Autowired UserAuthenticationRepository userAuthenticationRepository;
 
     @Autowired
     UsernamePasswordAuthenticationProcessingFilter(ProviderManager providerManager, WebConfig webConfig){

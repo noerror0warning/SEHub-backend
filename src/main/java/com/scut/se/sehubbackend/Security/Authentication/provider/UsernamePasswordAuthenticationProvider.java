@@ -22,11 +22,11 @@ public class UsernamePasswordAuthenticationProvider implements AuthenticationPro
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         Optional<UserAuthentication> userOptional=userRepository.findById((String) authentication.getPrincipal());//查找用户信息
-        if (!userOptional.isPresent()||userOptional.get().getPassword()!=authentication.getCredentials())//若未找到或密码错误
+        if (!userOptional.isPresent()||!((String)userOptional.get().getPassword()).equals(((String)authentication.getCredentials())))//若未找到或密码错误
             throw new AuthenticationServiceException("Fail to find the user");
         else {//正确时授权认证
             return new UsernamePasswordAuthenticationToken(
-                    authentication.getPrincipal(),
+                    userOptional.get(),
                     null,
                     UserAuthorityRecord.toGrantedAuthorities(userOptional.get().getAuthorityRecords())
             );

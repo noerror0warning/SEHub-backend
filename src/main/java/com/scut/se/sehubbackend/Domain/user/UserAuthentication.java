@@ -41,7 +41,8 @@ public class UserAuthentication implements Serializable, UserDetails {
     @OneToMany(
             mappedBy = "owner",
             cascade = CascadeType.ALL,
-            orphanRemoval = true
+            orphanRemoval = true,
+            fetch = FetchType.EAGER
     )
     Set<UserAuthorityRecord> authorityRecords;
 
@@ -49,7 +50,8 @@ public class UserAuthentication implements Serializable, UserDetails {
     @OneToMany(
             mappedBy = "userAuthentication",
             cascade = CascadeType.ALL,
-            orphanRemoval = true
+            orphanRemoval = true,
+            fetch = FetchType.EAGER
     )
     @SortComparator(value = UserHistoryComparator.class)
     SortedSet<UserHistory> userHistories;

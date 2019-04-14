@@ -24,6 +24,7 @@ public class UserInformation implements Serializable {
     String name;
 
     @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     @OneToOne(optional = false)
     UserAuthentication userAuthentication;
 

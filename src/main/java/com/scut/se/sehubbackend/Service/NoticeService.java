@@ -3,10 +3,11 @@ package com.scut.se.sehubbackend.Service;
 import com.scut.se.sehubbackend.Domain.Notice;
 import com.scut.se.sehubbackend.Domain.user.UserAuthentication;
 import com.scut.se.sehubbackend.Repository.NoticeRepository;
-import com.scut.se.sehubbackend.Repository.user.UserAuthenticationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -14,16 +15,12 @@ import java.util.*;
 @Service
 public class NoticeService {
 
-    @Autowired
-    UserAuthenticationRepository userAuthenticationRepository;
-
     @Autowired NoticeRepository noticeRepository;
     @Autowired Comparator<Notice> noticeComparator;
 
     private List<Notice> getAllNotices(){
-//        Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
-//        UserAuthentication user=(UserAuthentication) authentication.getPrincipal();
-        UserAuthentication user=userAuthenticationRepository.findById("201730683314").get();
+        Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
+        UserAuthentication user=(UserAuthentication) authentication.getPrincipal();
         List<Notice> notices=noticeRepository.findAllByAcceptor(user);
         return notices;
     }

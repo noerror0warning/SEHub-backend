@@ -11,9 +11,11 @@ import com.scut.se.sehubbackend.Repository.NoticeRepository;
 import com.scut.se.sehubbackend.Repository.user.UserAuthenticationRepository;
 import com.scut.se.sehubbackend.Repository.user.UserHistoryRepository;
 import com.scut.se.sehubbackend.Repository.user.UserInformationRepository;
+import com.scut.se.sehubbackend.Service.AuthorizeService;
 import com.scut.se.sehubbackend.Service.NoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,16 +29,12 @@ import java.util.Optional;
 @RestController
 public class TestController {
 
-    @Autowired
-    UserAuthenticationRepository userRepository;
-    @Autowired
-    UserInformationRepository userInformationRepository;
-    @Autowired
-    UserHistoryRepository userHistoryRepository;
-    @Autowired
-    NoticeRepository noticeRepository;
-    @Autowired
-    NoticeService noticeService;
+    @Autowired UserAuthenticationRepository userRepository;
+    @Autowired UserInformationRepository userInformationRepository;
+    @Autowired UserHistoryRepository userHistoryRepository;
+    @Autowired NoticeRepository noticeRepository;
+    @Autowired NoticeService noticeService;
+    @Autowired AuthorizeService authorizeService;
 
     @RequestMapping("/adduser")
     public void addUser(){
@@ -75,5 +73,10 @@ public class TestController {
     @RequestMapping("/getnotice")
     public ResponseEntity<ArrayList<Map<String,Object>>> getNotice(){
         return noticeService.getAllFrontNotices();
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login(){
+        return authorizeService.login();
     }
 }

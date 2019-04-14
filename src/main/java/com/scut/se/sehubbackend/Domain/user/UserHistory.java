@@ -32,6 +32,7 @@ public class UserHistory implements Serializable,Comparable {
     Position position;
 
     @ManyToOne(optional = false)
+    @ToString.Exclude
     @EqualsAndHashCode.Exclude
     UserAuthentication userAuthentication;
 

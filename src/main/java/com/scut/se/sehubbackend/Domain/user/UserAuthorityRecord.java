@@ -1,9 +1,6 @@
 package com.scut.se.sehubbackend.Domain.user;
 
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -48,6 +45,7 @@ public class UserAuthorityRecord implements Serializable {
     @Setter
     @Getter
     @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     UserAuthentication owner;
 
     @NotNull

@@ -1,8 +1,8 @@
 package com.scut.se.sehubbackend.Security.Authentication;
 
 import com.scut.se.sehubbackend.Config.WebConfig;
-import com.scut.se.sehubbackend.Domain.user.UserAuthentication;
 import com.scut.se.sehubbackend.Security.JWT.JWTManager;
+import org.jose4j.jwt.MalformedClaimException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;
@@ -24,12 +24,11 @@ public class JWTPreAuthenticatedProcessingFilter extends AbstractPreAuthenticate
 
     @Override
     protected Object getPreAuthenticatedPrincipal(HttpServletRequest request) {
-        return new UserAuthentication();
-//        try {
-//            return jwtManager.decode(getJWT(request));
-//        } catch (MalformedClaimException e) {
-//            return null;
-//        }
+        try {
+            return jwtManager.decode(getJWT(request));
+        } catch (MalformedClaimException e) {
+            return null;
+        }
     }
 
     @Override
