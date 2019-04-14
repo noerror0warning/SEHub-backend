@@ -33,7 +33,8 @@ public class ResearchController {
                 .build();
         userHistory.setUserAuthentication(userAuthentication);
         userInformation.setUserAuthentication(userAuthentication);
-        userRepository.saveAndFlush(userAuthentication);
+
+        userRepository.save(userAuthentication);
     }
 
     @RequestMapping("/userDetail")

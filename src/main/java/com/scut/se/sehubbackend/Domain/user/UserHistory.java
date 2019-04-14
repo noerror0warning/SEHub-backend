@@ -2,8 +2,7 @@ package com.scut.se.sehubbackend.Domain.user;
 
 import com.scut.se.sehubbackend.Enumeration.Department;
 import com.scut.se.sehubbackend.Enumeration.Position;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -12,7 +11,9 @@ import java.io.Serializable;
 @Entity
 @Data
 @Builder
-public class UserHistory implements Serializable {
+@AllArgsConstructor
+@NoArgsConstructor
+public class UserHistory implements Serializable,Comparable {
 
     private static final Long serialVersionUID=5L;
 
@@ -30,7 +31,12 @@ public class UserHistory implements Serializable {
     @Enumerated(EnumType.STRING)
     Position position;
 
-    @ManyToOne
-    @NotNull
+    @ManyToOne(optional = false)
+    @EqualsAndHashCode.Exclude
     UserAuthentication userAuthentication;
+
+    @Override
+    public int compareTo(Object o) {
+        return year.compareTo(((UserHistory)o).getYear());
+    }
 }

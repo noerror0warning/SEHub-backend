@@ -31,7 +31,6 @@ public class UserAuthentication implements Serializable, UserDetails {
 //    )
     String password;
 
-    @NotNull
     @OneToOne(
             mappedBy = "userAuthentication",
             cascade = CascadeType.ALL,
@@ -53,7 +52,6 @@ public class UserAuthentication implements Serializable, UserDetails {
             orphanRemoval = true
     )
     @SortComparator(value = UserHistoryComparator.class)
-    @NotNull
     SortedSet<UserHistory> userHistories;
 
     public void setAuthorityRecords(Set<GrantedAuthority> grantedAuthorities){

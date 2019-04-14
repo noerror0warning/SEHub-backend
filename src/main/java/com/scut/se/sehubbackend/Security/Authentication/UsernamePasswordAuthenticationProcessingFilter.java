@@ -39,10 +39,16 @@ public class UsernamePasswordAuthenticationProcessingFilter extends UsernamePass
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
             throws IOException, ServletException {
+        if(SecurityContextHolder.getContext().getAuthentication()!=null){
+            chain.doFilter(req,res);
+            return;
+        }
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
         Authentication attempt=attemptAuthentication(request,response);
-        Authentication result=getAuthenticationManager().authenticate(attempt);
+        Authentication result=null;
+        if(attempt!=null)
+            result=getAuthenticationManager().authenticate(attempt);
         if (result!=null)
             SecurityContextHolder.getContext().setAuthentication(result);
         chain.doFilter(req,res);
