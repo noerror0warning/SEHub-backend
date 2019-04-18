@@ -43,12 +43,12 @@ public class AuthorizeService {
      * @return (jwt,200) - 成功登陆<br/>(null,401) - 登陆失败<br/>(null,500) - 服务器内部错误<br/>
      */
     public ResponseEntity<String> login() {
-        UserAuthentication user=(UserAuthentication)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (user==null){
+        Authentication authentication=SecurityContextHolder.getContext().getAuthentication();
+        if (authentication==null){
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }else {
             try {
-                return new ResponseEntity<>(jwtManager.encode(user),HttpStatus.OK);
+                return new ResponseEntity<>(jwtManager.encode((UserAuthentication) authentication.getPrincipal()),HttpStatus.OK);
             } catch (JoseException e) {
                 e.printStackTrace();
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
