@@ -1,5 +1,6 @@
 package com.scut.se.sehubbackend.Domain.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.scut.se.sehubbackend.Enumeration.Department;
 import com.scut.se.sehubbackend.Enumeration.Position;
 import lombok.*;
@@ -34,6 +35,7 @@ public class UserHistory implements Serializable,Comparable {
     @ManyToOne(optional = false)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
+    @JsonIgnore
     UserAuthentication userAuthentication;
 
     @Override

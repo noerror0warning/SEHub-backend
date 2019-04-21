@@ -1,5 +1,6 @@
 package com.scut.se.sehubbackend.Domain.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -46,6 +47,7 @@ public class UserAuthorityRecord implements Serializable {
     @Getter
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
+    @JsonIgnore
     UserAuthentication owner;
 
     @NotNull

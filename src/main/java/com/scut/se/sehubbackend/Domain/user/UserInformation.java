@@ -1,5 +1,6 @@
 package com.scut.se.sehubbackend.Domain.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -26,6 +27,7 @@ public class UserInformation implements Serializable {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @OneToOne(optional = false)
+    @JsonIgnore
     UserAuthentication userAuthentication;
 
 }
