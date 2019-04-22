@@ -23,16 +23,17 @@ import java.util.*;
 @Service
 public class ApyService {
 
-    @Autowired private static AuthorityMapper authorityMapper;
     @Autowired private UserAuthorityRecordRepository authorityRecordRepository;
     @Autowired private ApplicationInternalInformationRepository internalInformationRepository;
     @Autowired private ApplicationJoinInformationRepository joinInformationRepository;
     @Autowired private ApplicationFormRepository formRepository;
     @Autowired private NoticeRepository noticeRepository;
-    private static Map<ApplicationType, GrantedAuthority> applicationType2GrantedAuthority;
 
     // getAcceptors使用的
-    static {
+    private Map<ApplicationType, GrantedAuthority> applicationType2GrantedAuthority;
+
+    @Autowired
+    public ApyService(AuthorityMapper authorityMapper){
         applicationType2GrantedAuthority=new HashMap<>();
         applicationType2GrantedAuthority.put(ApplicationType.Etiquette,authorityMapper.mapDynamic(Department.Relation,null));
         applicationType2GrantedAuthority.put(ApplicationType.Event,authorityMapper.mapDynamic(Department.StandingCommittee,null));
