@@ -18,6 +18,7 @@ public class UserInformation implements Serializable {
 
     @Id
     @JsonIgnore
+    @ToString.Exclude
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
