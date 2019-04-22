@@ -17,6 +17,7 @@ public class UserInformation implements Serializable {
     private static final long serialVersionUID=2L;
 
     @Id
+    @JsonIgnore
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 

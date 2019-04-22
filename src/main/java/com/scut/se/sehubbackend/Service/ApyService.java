@@ -19,12 +19,11 @@ import java.util.Map;
 @Service
 public class ApyService {
 
-    @Autowired static AuthorityMapper authorityMapper;
     @Autowired UserAuthorityRecordRepository authorityRecordRepository;
-    private static Map<ApplicationType, GrantedAuthority> applicationType2GrantedAuthority;
+    private Map<ApplicationType, GrantedAuthority> applicationType2GrantedAuthority;
 
-
-    static {
+    @Autowired
+    public ApyService(AuthorityMapper authorityMapper){
         applicationType2GrantedAuthority=new HashMap<>();
         applicationType2GrantedAuthority.put(ApplicationType.Etiquette,authorityMapper.mapDynamic(Department.Relation,null));
         applicationType2GrantedAuthority.put(ApplicationType.Event,authorityMapper.mapDynamic(Department.StandingCommittee,null));
